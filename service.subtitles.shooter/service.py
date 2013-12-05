@@ -242,11 +242,6 @@ def Search(item):
 def Download(filename):
     subtitle_list = []
     subtitle_list.append(filename)
-    ext = filename.rsplit(".",1)[1]
-    if ext == 'sub':
-        idxname = filename.rsplit(".",1)[0] + '.idx'
-        if xbmcvfs.exists(idxname):
-            subtitle_list.append(idxname)
     return subtitle_list
  
 def normalizeString(str):
