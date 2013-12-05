@@ -308,16 +308,5 @@ elif params['action'] == 'download':
     for sub in subs:
         listitem = xbmcgui.ListItem(label=sub)
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
-  
-  
+
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    
