@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -38,7 +38,7 @@ CLIENTKEY = "SP,aerSP,aer %d &e(\xd7\x02 %s %s"
 RETRY = 3
 
 def log(module, msg):
-    xbmc.log((u"%s::%s - %s" % (__scriptname__,module,msg,)).encode('utf-8'),level=xbmc.LOGDEBUG ) 
+    xbmc.log((u"%s::%s - %s" % (__scriptname__,module,msg,)).encode('utf-8'),level=xbmc.LOGDEBUG )
 
 def grapBlock(f, offset, size):
     f.seek(offset, 0)
@@ -61,15 +61,15 @@ def genFileHash(fpath):
 def getShortNameByFileName(fpath):
     fpath = os.path.basename(fpath).rsplit(".",1)[0]
     fpath = fpath.lower()
-    
+
     for stop in ["blueray","bluray","dvdrip","xvid","cd1","cd2","cd3","cd4","cd5","cd6","vc1","vc-1","hdtv","1080p","720p","1080i","x264","stv","limited","ac3","xxx","hddvd"]:
         i = fpath.find(stop)
         if i >= 0:
             fpath = fpath[:i]
-    
+
     for c in "[].-#_=+<>,":
         fpath = fpath.replace(c, " ")
-    
+
     return fpath.strip()
 
 def getShortName(fpath):
@@ -106,7 +106,7 @@ def urlopen(url, svprev, formdata):
     data.append("--" + boundary + "--\r\n")
     data = "".join(data)
     cl = str(len(data))
-    
+
     r = urlparse(url)
     h = HTTPConnection(r.hostname)
     h.connect()
@@ -117,9 +117,9 @@ def urlopen(url, svprev, formdata):
     h.putheader("Content-Length", cl)
     h.putheader("Content-Type", "multipart/form-data; boundary=" + boundary)
     h.endheaders()
-    
+
     h.send(data)
-    
+
     resp = h.getresponse()
     if resp.status != OK:
         raise Exception("HTTP response " + str(resp.status) + ": " + resp.reason)
@@ -143,7 +143,7 @@ def downloadSubs(fpath, lang):
     formdata.append(("shortname", shortname.encode("utf-8")))
     if lang != "chn":
         formdata.append(("lang", lang))
-    
+
     for server in ["www", "svplayer", "splayer1", "splayer2", "splayer3", "splayer4", "splayer5", "splayer6", "splayer7", "splayer8", "splayer9"]:
         for schema in ["http", "https"]:
             theurl = schema + "://" + server + ".shooter.cn/api/subapi.php"
@@ -227,7 +227,7 @@ def getSub(fpath, languagesearch, languageshort, languagelong):
                     listitem.setProperty( "sync", "true" )
                     listitem.setProperty( "hearing_imp", "false" )
                     url = "plugin://%s/?action=download&filename=%s" % (__scriptid__, local_tmp_file)
-                    xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=listitem,isFolder=False) 
+                    xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=listitem,isFolder=False)
 
 def Search(item):
     if xbmcvfs.exists(__temp__):
@@ -243,12 +243,12 @@ def Download(filename):
     subtitle_list = []
     subtitle_list.append(filename)
     return subtitle_list
- 
+
 def normalizeString(str):
     return unicodedata.normalize(
          'NFKD', unicode(unicode(str, 'utf-8'))
-         ).encode('ascii','ignore')    
- 
+         ).encode('ascii','ignore')
+
 def get_params():
     param=[]
     paramstring=sys.argv[2]
@@ -264,7 +264,7 @@ def get_params():
             splitparams=pairsofparams[i].split('=')
             if (len(splitparams))==2:
                 param[splitparams[0]]=splitparams[1]
-                                
+
     return param
 
 params = get_params()
@@ -300,8 +300,8 @@ if params['action'] == 'search':
     elif ( item['file_original_path'].find("stack://") > -1 ):
         stackPath = item['file_original_path'].split(" , ")
         item['file_original_path'] = stackPath[0][8:]
-  
-    Search(item)  
+
+    Search(item)
 
 elif params['action'] == 'download':
     subs = Download(params["filename"])
