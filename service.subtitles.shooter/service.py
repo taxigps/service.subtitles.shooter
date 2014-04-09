@@ -20,8 +20,6 @@ import zlib
 import random
 from urlparse import urlparse
 
-from langconv import *
-
 __addon__ = xbmcaddon.Addon()
 __author__     = __addon__.getAddonInfo('author')
 __scriptid__   = __addon__.getAddonInfo('id')
@@ -35,6 +33,7 @@ __resource__   = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' )
 __temp__       = xbmc.translatePath( os.path.join( __profile__, 'temp') ).decode("utf-8")
 
 sys.path.append (__resource__)
+from langconv import *
 
 SVP_REV_NUMBER = 1543
 CLIENTKEY = "SP,aerSP,aer %d &e(\xd7\x02 %s %s"
