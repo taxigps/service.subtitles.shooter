@@ -295,7 +295,7 @@ def getSubByTitle(title, langs):
     results = soup.find_all("div", attrs={"class":"subitem"})
     for it in results:
             name = it.find("div", attrs={"class":"sublist_box_title"}).text.encode('utf-8').strip()
-            id = re.search('local_downfile\(this,(\d+)\);', 
+            id = re.search('local_downfile\(this,(\d+)\);',
                                   it.find("div", attrs={"class":"sublist_box_title"}).find(onclick=True)['onclick'].encode('utf-8')
                                   ).group(1)
             match = it.find(text=re.compile("调校：*".decode('utf-8')))
