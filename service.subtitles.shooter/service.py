@@ -216,7 +216,7 @@ def getSubByHash(fpath, languagesearch, languageshort, languagelong):
         for sub in package.SubPackages:
             id += 1
             for file in sub.Files:
-                if __addon__.getSetting("transUTF8") == "true" and (file.ExtName in ["srt", "txt", "ssa", "ass", "smi"]):
+                if __addon__.getSetting("transUTF8") == "true" and (file.ExtName in ["srt", "ssa", "ass", "smi"]):
                     enc = chardet.detect(file.FileData)['encoding']
                     if enc:
                         data = file.FileData.decode(enc, 'ignore')
@@ -232,7 +232,7 @@ def getSubByHash(fpath, languagesearch, languageshort, languagelong):
                     local_file_handle.close()
                 except:
                     log(sys._getframe().f_code.co_name, "Failed to save subtitles to '%s'" % (local_tmp_file))
-                if (file.ExtName in ["srt", "txt", "ssa", "ass", "smi", "sub"]):
+                if (file.ExtName in ["srt", "ssa", "ass", "smi", "sub"]):
                     showname = ".".join([barename, file.ExtName])
                     listitem = xbmcgui.ListItem(label=languagelong,
                                                 label2=showname,
@@ -352,6 +352,13 @@ def Download(filename):
     subtitle_list.append(filename)
     return subtitle_list
 
+def CheckSubList(files):
+    list = []
+    for subfile in files:
+        if os.path.splitext(subfile)[1] in [".srt", ".ssa", ".ass", ".smi", ".sub"]:
+            list.append(subfile)
+    return list
+
 def DownloadID(id):
     if xbmcvfs.exists(__temp__):
         rmtree(__temp__)
@@ -380,14 +387,15 @@ def DownloadID(id):
     xbmc.executebuiltin(('XBMC.Extract("%s","%s")' % (zip,__temp__,)).encode('utf-8'), True)
     path = __temp__
     dirs, files = xbmcvfs.listdir(path)
-    if len(dirs) > 0:
+    list = CheckSubList(files)
+    if not list and len(dirs) > 0:
         path = os.path.join(__temp__, dirs[0].decode('utf-8'))
         dirs, files = xbmcvfs.listdir(path)
-    list = []
-    for subfile in files:
-        if os.path.splitext(subfile)[1] in [".srt", ".txt", ".ssa", ".ass", ".smi", ".sub"]:
-            list.append(subfile)
-    filename = list[0].decode('utf-8')
+        list = CheckSubList(files)
+    if list:
+        filename = list[0].decode('utf-8')
+    else:
+        filename = ''
     if len(list) > 1:
         dialog = xbmcgui.Dialog()
         sel = dialog.select(__language__(32006), list)
