@@ -339,7 +339,7 @@ def Search(item):
     getSubByTitle(title, item['3let_language'])
 
 def ChangeFileEndcoding(filepath):
-    if __addon__.getSetting("transUTF8") == "true" and os.path.splitext(filepath)[1] in [".srt", ".ssa", ".ass", ".smi"]: 
+    if __addon__.getSetting("transUTF8") == "true" and os.path.splitext(filepath)[1] in [".srt", ".ssa", ".ass", ".smi"]:
         data = open(filepath, 'rb').read()
         enc = chardet.detect(data)['encoding']
         if enc:
